@@ -1,4 +1,25 @@
-## Acceptance criteria
+# Weather App
+
+The user inputs a city, and the app outputs a weather forecast for that location for the next five days
+
+## About
+
+This is a placeholder submission!
+
+I'm told that we can re-submit homework assignments well after the due date. I hope that this is true, but, just in case it's false, I am submitting this 'better than nothing' version for now. (I fully intend to submit a finished version of the assignment in the future).
+
+To see what I've done so far, give the prompt a city name, and query the console about 'theFirstConsoleVariable' and/or 'theSecondConsoleVariable'
+
+## Screencap
+
+<h3 style="text-align: center;">The site with the console open:</h3>
+<br />
+
+![consoleish screencap](./images/module-six-placeholder-screencap.png)
+
+module-six-placeholder-screencap.png
+
+## Acceptance criteria (for my personal reference)
 
 AS A traveler
 
