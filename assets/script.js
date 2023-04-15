@@ -41,16 +41,18 @@ function forecastFetch() {
         conditionsInFiveDays = [data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
         conditionsArray = [conditionsRightNow, conditionsTomorrow, conditionsInTwoDays, conditionsInThreeDays, conditionsInFourDays, conditionsInFiveDays];
         
-        theSecondConsoleVariable = data;
+        theSecondConsoleVariable = data; // just for testing purposes
         })
 }
 
-function getUserInput() {
+// NOTE: both of these functions are called by index.html (which is bad practice)
+function checkForReturnKey(){
+    if (event.key === "Enter") {processSearchFieldInput()}}
+
+function processSearchFieldInput() {
     globalThis.city = document.getElementById("inputbox").value;
     coordinatesFetch(forecastFetch);
 }
-
-getUserInput();
 
 // for reference
 // const openWeatherGCSFetchURL = "http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}"";

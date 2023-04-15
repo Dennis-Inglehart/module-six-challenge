@@ -14,8 +14,9 @@
     <header></header>
     <section id="left">
         <div id="interfacecard">
-            <input id="inputbox">
-            <button type="button" onclick="getUserInput();">Search</button>
+            <input type="text" id="inputbox" placeholder="Enter a city name" onkeydown="checkForReturnKey();">
+            <button type="button" onclick="processSearchFieldInput();">Search</button>
+        </div>
         </div>
     </section>
     <section id="top-right"></section>
