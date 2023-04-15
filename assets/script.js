@@ -1,14 +1,13 @@
 const openWeatherMapAPIKeyA = "c0a3944217eb990794e59a8ef9f6e815";
 const openWeatherMapAPIKeyB = "10781a30dfcabf96c7e158d17668332f";
-var city = window.prompt("City? ");
-var openWeatherGCSFetchURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=0&appid=" + openWeatherMapAPIKeyA;
-var forecastFetchBeginning = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=";
-var forecastFetchEnd = "&appid=" + openWeatherMapAPIKeyB;
+var city = new String;
+var openWeatherGCSFetchURL = new String;
 var openWeatherForecastFetchURL = new String;
 var latitude = new Number;
 var longitude = new Number;
 
 function coordinatesFetch(callback) {
+    openWeatherGCSFetchURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=0&appid=" + openWeatherMapAPIKeyA;
     fetch(openWeatherGCSFetchURL)
         .then(function (response) {
             return response.json();
@@ -18,7 +17,7 @@ function coordinatesFetch(callback) {
             preciseLongitude = data[0].lon
             latitude = preciseLatitude.toFixed(2);
             longitude = preciseLongitude.toFixed(2);
-            globalThis.openWeatherForecastFetchURL = (forecastFetchBeginning + latitude + "&lon=" + longitude + forecastFetchEnd);
+            openWeatherForecastFetchURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=" + latitude + "&lon=" + longitude + "&appid=" + openWeatherMapAPIKeyB;
             callback(forecastFetch);
 
             theFirstConsoleVariable = data;
@@ -46,13 +45,12 @@ function forecastFetch() {
         })
 }
 
-coordinatesFetch(forecastFetch);
+function getUserInput() {
+    globalThis.city = document.getElementById("inputbox").value;
+    coordinatesFetch(forecastFetch);
+}
 
-// function getUserInput() {
-//     globalThis.city = document.getElementById("inputbox").value;
-//     forecastFetch();
-// }
-// getUserInput();
+getUserInput();
 
 // for reference
 // const openWeatherGCSFetchURL = "http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}"";
