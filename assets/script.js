@@ -5,6 +5,28 @@ var openWeatherGCSFetchURL = new String;
 var openWeatherForecastFetchURL = new String;
 var latitude = new Number;
 var longitude = new Number;
+const todaysDate = new Date();
+const weekdayNames = { // declared with "todaysDate.getDay()" in mind
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
+    7: "Sunday", // we need to go past [6] because "todaysDate.getDay() + 1" will be "undefined" on Saturday; it will not know we want it to loop back around to 0
+    8: "Monday",
+    9: "Tuesday",
+    10: "Wednesday",
+    11: "Thursday",
+};
+
+const todayDiv = document.createElement("div"); todayDiv.setAttribute("class", "forecastCard");
+const tomorrowDiv = document.createElement("div"); tomorrowDiv.setAttribute("class", "forecastCard");
+const twoDaysFromNowDiv = document.createElement("div"); twoDaysFromNowDiv.setAttribute("class", "forecastCard");
+const threeDaysFromNowDiv = document.createElement("div"); threeDaysFromNowDiv.setAttribute("class", "forecastCard");
+const fourDaysFromNowDiv = document.createElement("div"); fourDaysFromNowDiv.setAttribute("class", "forecastCard");
+const fiveDaysFromNowDiv = document.createElement("div"); fiveDaysFromNowDiv.setAttribute("class", "forecastCard");
 
 function coordinatesFetch(callback) {
     openWeatherGCSFetchURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=0&appid=" + openWeatherMapAPIKeyA;
@@ -33,19 +55,37 @@ function forecastFetch() {
         // If I had more time, I would learn how to make these arrays like a real programmer
         // takes the relevant data from every 24 hours (every 8th 3 hour period):
 
-        conditionsRightNow = [data.list[0].weather[0].description, data.list[0].main.temp, data.list[0].main.humidity, data.list[0].wind.speed];
-        conditionsTomorrow = [data.list[7].weather[0].description, data.list[7].main.temp, data.list[7].main.humidity, data.list[7].wind.speed];
-        conditionsInTwoDays = [data.list[15].weather[0].description, data.list[15].main.temp, data.list[15].main.humidity, data.list[15].wind.speed];
-        conditionsInThreeDays = [data.list[23].weather[0].description, data.list[23].main.temp, data.list[23].main.humidity, data.list[23].wind.speed];
-        conditionsInFourDays = [data.list[31].weather[0].description, data.list[31].main.temp, data.list[31].main.humidity, data.list[31].wind.speed];
-        conditionsInFiveDays = [data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
+        conditionsRightNow = [weekdayNames[todaysDate.getDay()], data.list[0].weather[0].description, data.list[0].main.temp, data.list[0].main.humidity, data.list[0].wind.speed];
+        conditionsTomorrow = [weekdayNames[todaysDate.getDay() + 1], data.list[7].weather[0].description, data.list[7].main.temp, data.list[7].main.humidity, data.list[7].wind.speed];
+        conditionsInTwoDays = [weekdayNames[todaysDate.getDay() + 2], data.list[15].weather[0].description, data.list[15].main.temp, data.list[15].main.humidity, data.list[15].wind.speed];
+        conditionsInThreeDays = [weekdayNames[todaysDate.getDay() + 3], data.list[23].weather[0].description, data.list[23].main.temp, data.list[23].main.humidity, data.list[23].wind.speed];
+        conditionsInFourDays = [weekdayNames[todaysDate.getDay() + 4], data.list[31].weather[0].description, data.list[31].main.temp, data.list[31].main.humidity, data.list[31].wind.speed];
+        conditionsInFiveDays = [weekdayNames[todaysDate.getDay() + 5], data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
         conditionsArray = [conditionsRightNow, conditionsTomorrow, conditionsInTwoDays, conditionsInThreeDays, conditionsInFourDays, conditionsInFiveDays];
         
         theSecondConsoleVariable = data; // just for testing purposes
         })
+        .then(populateTopRight);
 }
 
-// NOTE: both of these functions are called by index.html (which is bad practice)
+function populateTopRight() { // populates the top-right of the window with 6 cards (one for each day) and fills each card (mostly with info from the weather app)
+
+    todayDiv.innerHTML = conditionsRightNow;
+    tomorrowDiv.innerHTML = conditionsTomorrow;
+    twoDaysFromNowDiv.innerHTML = conditionsInTwoDays;
+    threeDaysFromNowDiv.innerHTML = conditionsInThreeDays;
+    fourDaysFromNowDiv.innerHTML = conditionsInFourDays;
+    fiveDaysFromNowDiv.innerHTML = conditionsInFiveDays;
+
+    document.getElementById("top-right").appendChild(todayDiv);
+    document.getElementById("top-right").appendChild(tomorrowDiv);
+    document.getElementById("top-right").appendChild(twoDaysFromNowDiv);
+    document.getElementById("top-right").appendChild(threeDaysFromNowDiv);
+    document.getElementById("top-right").appendChild(fourDaysFromNowDiv);
+    document.getElementById("top-right").appendChild(fiveDaysFromNowDiv);
+}
+
+// NOTE: both of these functions are called by index.html (which is bad practice?)
 function checkForReturnKey(){
     if (event.key === "Enter") {processSearchFieldInput()}}
 
