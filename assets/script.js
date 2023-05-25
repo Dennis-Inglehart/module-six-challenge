@@ -28,7 +28,7 @@ const threeDaysFromNowDiv = document.createElement("div"); threeDaysFromNowDiv.s
 const fourDaysFromNowDiv = document.createElement("div"); fourDaysFromNowDiv.setAttribute("class", "forecast-card");
 const fiveDaysFromNowDiv = document.createElement("div"); fiveDaysFromNowDiv.setAttribute("class", "forecast-card");
 
-function coordinatesFetch(callback) {
+function coordinatesFetch(callback) { // called by the functions that manage user input: processSearchFieldInput() and processHistoryButton()
     openWeatherGCSFetchURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=0&appid=" + openWeatherMapAPIKeyA;
     fetch(openWeatherGCSFetchURL)
         .then(function (response) {
@@ -41,8 +41,6 @@ function coordinatesFetch(callback) {
             longitude = preciseLongitude.toFixed(2);
             openWeatherForecastFetchURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=" + latitude + "&lon=" + longitude + "&appid=" + openWeatherMapAPIKeyB;
             callback(forecastFetch);
-
-            theFirstConsoleVariable = data;
         })
 }
 
@@ -52,7 +50,6 @@ function forecastFetch() {
             return response.json();
         })
         .then(function (data) {
-        // If I had more time, I would learn how to make these arrays like a real programmer
         // takes the relevant data from every 24 hours (every 8th 3 hour period):
 
         conditionsRightNow = [weekdayNames[todaysDate.getDay()], data.list[0].weather[0].description, data.list[0].main.temp, data.list[0].main.humidity, data.list[0].wind.speed];
@@ -62,8 +59,6 @@ function forecastFetch() {
         conditionsInFourDays = [weekdayNames[todaysDate.getDay() + 4], data.list[31].weather[0].description, data.list[31].main.temp, data.list[31].main.humidity, data.list[31].wind.speed];
         conditionsInFiveDays = [weekdayNames[todaysDate.getDay() + 5], data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
         conditionsArray = [conditionsRightNow, conditionsTomorrow, conditionsInTwoDays, conditionsInThreeDays, conditionsInFourDays, conditionsInFiveDays];
-        
-        theSecondConsoleVariable = data; // just for testing purposes
         })
         .then(populateTopRight);
 }
@@ -85,14 +80,39 @@ function populateTopRight() { // populates the top-right of the window with 6 ca
     document.getElementById("bottom-right").appendChild(fiveDaysFromNowDiv);
 }
 
-// NOTE: both of these functions are called by index.html (which is bad practice?)
-function checkForReturnKey(){
-    if (event.key === "Enter") {processSearchFieldInput()}}
-
-function processSearchFieldInput() {
-    globalThis.city = document.getElementById("inputbox").value;
-    coordinatesFetch(forecastFetch);
+function updateLeftButton(i) { // updates the five buttons with data from localStorage, which is hopefully search history data. Called by storeCityInLocalStorage() (the `i` is the index of its loop)
+    document.getElementById(`historybutton-${i}`).textContent = city;
 }
 
-// for reference
-// const openWeatherGCSFetchURL = "http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}"";
+function storeCityInLocalStorage() { // called by processSearchFieldInput()
+    for (i = 0; i < 5; i++) {                       // <- stops after 5 (so we can't have infinite entries)
+        if (localStorage.getItem(i) === city) {     // <- checks if the city name is already in localStorage (so we can't have "Chicago" multiple times)
+            break;
+        } else {
+            if (localStorage.getItem(i) === null) { // <- checks if something else is already in localStorage (so we won't overwrite)
+                localStorage.setItem (i, city);
+                updateLeftButton(i);
+                break;
+            }
+        }
+    }
+}
+
+function updateLeftButton(i) { // updates the five buttons with data from localStorage, which is hopefully search history data. The `i` is the `i` from storeCityInLocalStorage()
+    document.getElementById(`historybutton-${i}`).querySelector("button").textContent = city;
+}
+
+// NOTE: the three functions below are called by index.html (which is bad practice?)
+
+function checkForReturnKey(){
+    if (event.key === "Enter") {processSearchFieldInput(event)}}
+    
+function processSearchFieldInput() {
+    globalThis.city = document.getElementById("inputbox").value;
+    storeCityInLocalStorage();
+    coordinatesFetch(forecastFetch);
+}
+function processHistoryButton(theKeyFromTheDiv) {
+    globalThis.city = localStorage.getItem(theKeyFromTheDiv);
+    coordinatesFetch(forecastFetch);
+}
