@@ -21,12 +21,12 @@ const weekdayNames = { // declared with "todaysDate.getDay()" in mind
     11: "Thursday",
 };
 
-const todayDiv = document.createElement("div"); todayDiv.setAttribute("class", "forecastCard");
-const tomorrowDiv = document.createElement("div"); tomorrowDiv.setAttribute("class", "forecastCard");
-const twoDaysFromNowDiv = document.createElement("div"); twoDaysFromNowDiv.setAttribute("class", "forecastCard");
-const threeDaysFromNowDiv = document.createElement("div"); threeDaysFromNowDiv.setAttribute("class", "forecastCard");
-const fourDaysFromNowDiv = document.createElement("div"); fourDaysFromNowDiv.setAttribute("class", "forecastCard");
-const fiveDaysFromNowDiv = document.createElement("div"); fiveDaysFromNowDiv.setAttribute("class", "forecastCard");
+const todayDiv = document.createElement("div"); todayDiv.setAttribute("class", "today-card");
+const tomorrowDiv = document.createElement("div"); tomorrowDiv.setAttribute("class", "forecast-card");
+const twoDaysFromNowDiv = document.createElement("div"); twoDaysFromNowDiv.setAttribute("class", "forecast-card");
+const threeDaysFromNowDiv = document.createElement("div"); threeDaysFromNowDiv.setAttribute("class", "forecast-card");
+const fourDaysFromNowDiv = document.createElement("div"); fourDaysFromNowDiv.setAttribute("class", "forecast-card");
+const fiveDaysFromNowDiv = document.createElement("div"); fiveDaysFromNowDiv.setAttribute("class", "forecast-card");
 
 function coordinatesFetch(callback) {
     openWeatherGCSFetchURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=0&appid=" + openWeatherMapAPIKeyA;
@@ -78,11 +78,11 @@ function populateTopRight() { // populates the top-right of the window with 6 ca
     fiveDaysFromNowDiv.innerHTML = conditionsInFiveDays;
 
     document.getElementById("top-right").appendChild(todayDiv);
-    document.getElementById("top-right").appendChild(tomorrowDiv);
-    document.getElementById("top-right").appendChild(twoDaysFromNowDiv);
-    document.getElementById("top-right").appendChild(threeDaysFromNowDiv);
-    document.getElementById("top-right").appendChild(fourDaysFromNowDiv);
-    document.getElementById("top-right").appendChild(fiveDaysFromNowDiv);
+    document.getElementById("bottom-right").appendChild(tomorrowDiv);
+    document.getElementById("bottom-right").appendChild(twoDaysFromNowDiv);
+    document.getElementById("bottom-right").appendChild(threeDaysFromNowDiv);
+    document.getElementById("bottom-right").appendChild(fourDaysFromNowDiv);
+    document.getElementById("bottom-right").appendChild(fiveDaysFromNowDiv);
 }
 
 // NOTE: both of these functions are called by index.html (which is bad practice?)

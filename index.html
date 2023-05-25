@@ -5,22 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
-    <title>Five Day Weather</title>
+    <title>Five Day Weather Forecast</title>
 </head>
 
 <body>
-    <header></header>
-    <section id="left">
-        <div id="interfacecard">
+    <header class="basal-section" id="header">
+        <h1 id="header-h1">Five Day Weather Forecast</h1>
+    </header>
+    <section class="basal-section" id="left">
+        <div id="interface-card">
             <input type="text" id="inputbox" placeholder="Enter a city name" onkeydown="checkForReturnKey();">
             <button type="button" onclick="processSearchFieldInput();">Search</button>
         </div>
         </div>
     </section>
-    <section id="top-right"></section>
-    <section id="bottom-right"></section>
+    <section class="basal-section" id="top-right"></section>
+    <section class="basal-section" id="bottom-right"></section>
     <footer></footer>
     <script src="./assets/script.js"></script>
 </body>
