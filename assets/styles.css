@@ -1,0 +1,82 @@
+:root {
+    --distant-background: beige;
+    --background: pink;
+    --heading-text: brown;
+    --text: maroon;
+    --border: black;
+    --hover-shadow: rgba(158, 64, 10, 0.466);
+}
+
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: var(--distant-background);
+    color: var(--text);
+}
+
+.basal-section{
+    background-color: var(--distant-background);
+    padding: 0.6rem;
+    margin: 0.2rem;
+}
+
+#header{
+    background-color: var(--background);
+    padding: 0.5rem 0.3em;
+    text-align: center;
+    border: solid 0.2rem;
+    border-color: var(--border);
+}
+#header-h1{
+    background-color: var(--background);
+    color: var(--heading-text);
+}
+
+#left{}
+
+#interface-card{
+    background-color: var(--background);
+    padding: 1.3rem 0.6rem;
+    border: solid 0.2rem;
+    border-color: var(--border);
+    margin: 1rem;
+}
+
+.interface-card:hover{
+    box-shadow: 0.2rem 0.5rem 1rem var(--hover-shadow);
+    border-color: var(--hover-shadow);
+    color: var(--border);
+}
+
+#top-right{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+    margin: 0.1rem 4rem;
+}
+
+.today-card{
+    background-color: var(--background);
+    padding: 0.4rem 0.3rem;
+    border: solid 0.2rem;
+    border-color: var(--border);
+    margin: 1.1rem;
+}
+
+#bottom-right{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+    margin: 0.1rem 4rem;
+}
+
+.forecast-card{
+    background-color: var(--background);
+    padding: 0.3rem 0.1rem;
+    border: solid 0.2rem;
+    border-color: var(--border);
+    margin: 1.2rem;
+}
