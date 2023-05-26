@@ -21,6 +21,7 @@ const weekdayNames = { // declared with "todaysDate.getDay()" in mind
     11: "Thursday",
 };
 
+const cityNameDiv = document.createElement("div"); cityNameDiv.setAttribute("class", "headercard");
 const todayDiv = document.createElement("div"); todayDiv.setAttribute("class", "today-card");
 const tomorrowDiv = document.createElement("div"); tomorrowDiv.setAttribute("class", "forecast-card");
 const twoDaysFromNowDiv = document.createElement("div"); twoDaysFromNowDiv.setAttribute("class", "forecast-card");
@@ -60,11 +61,12 @@ function forecastFetch() {
         conditionsInFiveDays = [weekdayNames[todaysDate.getDay() + 5], data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
         conditionsArray = [conditionsRightNow, conditionsTomorrow, conditionsInTwoDays, conditionsInThreeDays, conditionsInFourDays, conditionsInFiveDays];
         })
-        .then(populateTopRight);
+        .then(populateRight);
 }
 
-function populateTopRight() { // populates the top-right of the window with 6 cards (one for each day) and fills each card (mostly with info from the weather app)
+function populateRight() { // populates the top-right of the window with 6 cards (one for each day) and fills each card (mostly with info from the weather app)
 
+    cityNameDiv.innerHTML = city;
     todayDiv.innerHTML = conditionsRightNow;
     tomorrowDiv.innerHTML = conditionsTomorrow;
     twoDaysFromNowDiv.innerHTML = conditionsInTwoDays;
@@ -72,6 +74,7 @@ function populateTopRight() { // populates the top-right of the window with 6 ca
     fourDaysFromNowDiv.innerHTML = conditionsInFourDays;
     fiveDaysFromNowDiv.innerHTML = conditionsInFiveDays;
 
+    document.getElementById("top-right").appendChild(cityNameDiv);
     document.getElementById("top-right").appendChild(todayDiv);
     document.getElementById("bottom-right").appendChild(tomorrowDiv);
     document.getElementById("bottom-right").appendChild(twoDaysFromNowDiv);
