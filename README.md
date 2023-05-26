@@ -19,6 +19,20 @@ To see what I've done so far, give the prompt a city name, and query the console
 
 module-six-placeholder-screencap.png
 
+## Future development
+
+Although Weather App has succeeded magnificently in its task— a true paragon of perfection!— there is still room for future growth and improvement:
+
+Add cute icons to the text output that reflect the current conditions
+
+Allow for different cities with the same name - currently, it is impossible to search for London, Ontario or for Toledo, Spain
+
+Use event listeners properly, instead of using `onclick` and `onkeydown` in the HTML
+
+Add 'delete' functionality to search history buttons - currently, once the user searches 5 cities, those 5 will remain their indelible history for all eternity
+
+javascript should be used to populate the HTML with the search history buttons (instead of them just starting there)
+
 ## Acceptance criteria (for my personal reference)
 
 AS A traveler
