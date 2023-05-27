@@ -1,6 +1,7 @@
 const openWeatherMapAPIKeyA = "c0a3944217eb990794e59a8ef9f6e815";
 const openWeatherMapAPIKeyB = "10781a30dfcabf96c7e158d17668332f";
 var city = new String;
+var icon = new String;
 var openWeatherGCSFetchURL = new String;
 var openWeatherForecastFetchURL = new String;
 var latitude = new Number;
@@ -21,6 +22,13 @@ const weekdayNames = { // declared with "todaysDate.getDay()" in mind
     11: "Thursday",
 };
 
+conditionsRightNow = new String;
+conditionsTomorrow = new String;
+conditionsInTwoDays = new String;
+conditionsInThreeDays = new String;
+conditionsInFourDays = new String;
+conditionsInFiveDays = new String;
+
 const cityNameDiv = document.createElement("div"); cityNameDiv.setAttribute("class", "headercard");
 const todayDiv = document.createElement("div"); todayDiv.setAttribute("class", "today-card");
 const tomorrowDiv = document.createElement("div"); tomorrowDiv.setAttribute("class", "forecast-card");
@@ -28,6 +36,17 @@ const twoDaysFromNowDiv = document.createElement("div"); twoDaysFromNowDiv.setAt
 const threeDaysFromNowDiv = document.createElement("div"); threeDaysFromNowDiv.setAttribute("class", "forecast-card");
 const fourDaysFromNowDiv = document.createElement("div"); fourDaysFromNowDiv.setAttribute("class", "forecast-card");
 const fiveDaysFromNowDiv = document.createElement("div"); fiveDaysFromNowDiv.setAttribute("class", "forecast-card");
+
+function assignIcon(conditions) { // called by forecastFetch
+    if (conditions === "thunderstorm") { icon = "⛈";
+    } else if (conditions === "rain") { icon = "☂";
+    } else if (conditions === "light rain") { icon = "🌦";
+    } else if (conditions === "snow") { icon = "❄";
+    } else if (conditions === "mist") { icon = "⛆";
+    } else if (conditions === "clear sky") { icon = "☀";
+    } else { icon = "🌥"} // 'broken clouds', 'few clouds', 'scattered clouds', and 'overcast clouds' will have to share
+    return icon;
+}
 
 function coordinatesFetch(callback) { // called by the functions that manage user input: processSearchFieldInput() and processHistoryButton()
     openWeatherGCSFetchURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=0&appid=" + openWeatherMapAPIKeyA;
@@ -52,15 +71,28 @@ function forecastFetch() {
         })
         .then(function (data) {
         // takes the relevant data from every 24 hours (every 8th 3 hour period):
-
-        conditionsRightNow = [weekdayNames[todaysDate.getDay()], data.list[0].weather[0].description, data.list[0].main.temp, data.list[0].main.humidity, data.list[0].wind.speed];
-        conditionsTomorrow = [weekdayNames[todaysDate.getDay() + 1], data.list[7].weather[0].description, data.list[7].main.temp, data.list[7].main.humidity, data.list[7].wind.speed];
-        conditionsInTwoDays = [weekdayNames[todaysDate.getDay() + 2], data.list[15].weather[0].description, data.list[15].main.temp, data.list[15].main.humidity, data.list[15].wind.speed];
-        conditionsInThreeDays = [weekdayNames[todaysDate.getDay() + 3], data.list[23].weather[0].description, data.list[23].main.temp, data.list[23].main.humidity, data.list[23].wind.speed];
-        conditionsInFourDays = [weekdayNames[todaysDate.getDay() + 4], data.list[31].weather[0].description, data.list[31].main.temp, data.list[31].main.humidity, data.list[31].wind.speed];
-        conditionsInFiveDays = [weekdayNames[todaysDate.getDay() + 5], data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
-        conditionsArray = [conditionsRightNow, conditionsTomorrow, conditionsInTwoDays, conditionsInThreeDays, conditionsInFourDays, conditionsInFiveDays];
-        })
+        // the template literals make the data from those arrays prettier, and add an icon
+        a = [weekdayNames[todaysDate.getDay()], data.list[0].weather[0].description, data.list[0].main.temp, data.list[0].main.humidity, data.list[0].wind.speed];
+        assignIcon(data.list[0].weather[0].description);
+        conditionsRightNow = `${a[0]}, ${icon} ${a[1]}, temperature: ${a[2]}°F, humidity: ${a[3]}, wind speed: ${a[4]}MPH`;
+        b = [weekdayNames[todaysDate.getDay() + 1], data.list[7].weather[0].description, data.list[7].main.temp, data.list[7].main.humidity, data.list[7].wind.speed];
+        assignIcon(data.list[7].weather[0].description);
+        conditionsTomorrow = `${b[0]}, ${icon} ${b[1]}, temperature: ${b[2]}°F, humidity: ${b[3]}, wind speed: ${b[4]}MPH`;
+        c = [weekdayNames[todaysDate.getDay() + 2], data.list[15].weather[0].description, data.list[15].main.temp, data.list[15].main.humidity, data.list[15].wind.speed];
+        assignIcon(data.list[15].weather[0].description);
+        conditionsInTwoDays = `${c[0]}, ${icon} ${c[1]}, temperature: ${c[2]}°F, humidity: ${c[3]}, wind speed: ${c[4]}MPH`;
+        d = [weekdayNames[todaysDate.getDay() + 3], data.list[23].weather[0].description, data.list[23].main.temp, data.list[23].main.humidity, data.list[23].wind.speed];
+        assignIcon(data.list[15].weather[0].description);
+        conditionsInThreeDays = `${d[0]}, ${icon} ${d[1]}, temperature: ${d[2]}°F, humidity: ${d[3]}, wind speed: ${d[4]}MPH`;
+        e = [weekdayNames[todaysDate.getDay() + 4], data.list[31].weather[0].description, data.list[31].main.temp, data.list[31].main.humidity, data.list[31].wind.speed];
+        assignIcon(data.list[15].weather[0].description);
+        conditionsInFourDays = `${e[0]}, ${icon} ${e[1]}, temperature: ${e[2]}°F, humidity: ${e[3]}, wind speed: ${e[4]}MPH`;
+        f = [weekdayNames[todaysDate.getDay() + 5], data.list[39].weather[0].description, data.list[39].main.temp, data.list[39].main.humidity, data.list[39].wind.speed];
+        assignIcon(data.list[15].weather[0].description);
+        conditionsInFiveDays = `${f[0]}, ${icon} ${f[1]}, temperature: ${f[2]}°F, humidity: ${f[3]}, wind speed: ${f[4]}MPH`;
+        conditionsArray = [a, b, c, d, e, f];
+        reportsArray = [conditionsRightNow, conditionsTomorrow, conditionsInTwoDays, conditionsInThreeDays, conditionsInFourDays, conditionsInFiveDays];
+    })
         .then(populateRight);
 }
 
